@@ -1,38 +1,90 @@
+:root{
+  --text-color-a: rgb(255, 255, 255);
+	--text-color-b: rgb(175, 175, 175);
+	--text-color-c: rgb(130, 130, 130);
+
+	--background-color-a: rgb(0, 0, 0);
+	--background-color-b: rgb(10, 10, 10);
+	--background-color-c: rgb(25, 25, 25);
+
+  --title-font: "Roboto", sans-serif;
+  --body-font: "Roboto", Sans-serif;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background: #333;
+  max-width: 600px;
+  width: 600px;
+  padding: 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.title {
+  font-family: var(--title-font);
+  font-size: 40px;
+  font-weight: 600;
+  color: #f13C20;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.btn {
+  background-color: #f13C20;
+  font-family: var(--title-font);
+  font-weight: 500;
+  border-radius: 10px;
+  border: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 18px;
+  text-align: center;
+  width: 50%;
+  height:30px;
+  color: var(--text-color-a);
+  margin-bottom:10px;
+}
+
+.btn:active {
+  background-color: #ad1d07;
+  transform: scale(0.98);
+}
+
+/* review listing */
+.review-listing {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 10px;
 }
 
-.App-link {
-  color: #61dafb;
+.review {
+  background-color: var(--background-color-c);
+  color: var(--background-color-a);
+  font-family: sans-serif;
+  font-weight: 500;
+  border-radius: 5px;
+  width: 100%;
+  min-height:40px;
+  overflow: hidden;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.review-header {
+  gap: 7.5px;
+  color:var(--text-color-c);
+  font-size: 0.85rem;
+  margin: 0 !important;
+}
+
+.review-title{
+  color: var(--text-color-a);
+  font-family: var(--title-font);
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.review-content{
+  color: var(--text-color-b);
+  font-family: var(--body-font);
+  font-size: 0.8rem;
+  text-align:left;
 }
