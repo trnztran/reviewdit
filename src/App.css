@@ -57,6 +57,12 @@ body {
   gap: 10px;
 }
 
+.review-search-title {
+  color: var(--text-color-b);
+  font-size: 14px;
+  overflow: hidden;
+}
+
 .review {
   background-color: var(--background-color-c);
   color: var(--background-color-a);

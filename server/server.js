@@ -12,7 +12,7 @@ app.get("/productName", async (req, res) => {
     // launch puppeteer to scrape Amazon webpage for product name
 
     const website = req.query.website;
-
+    console.log(website);
     try {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
