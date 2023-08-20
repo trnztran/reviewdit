@@ -4,30 +4,38 @@ import './App.css';
 
 function App() {
 
-  const [productName, setProductName] = useState(null);
+  const [productName, setProductName] = useState();
+  const [isLoading, setIsLoading] = useState();
 
   function getURL(callback){
     return chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
         callback(tabs[0].url)});
   }
 
-  const getProductName = async(url) => {
-    // console.log(url);
-
-    let amazon_URL = url;
-
-    await fetch('http://localhost:5000/productName?website='+amazon_URL)
+  const getProductName = (amazon_URL) => {
+    setIsLoading(true);
+    fetch('http://localhost:5000/productName?website='+amazon_URL)
       .then(response => response.text())
-      .then(text => console.log(text));
+      // .then(text => console.log(text))
+      .then(result => {
+        console.log(result);
+        setProductName(result);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+    // console.log(productName);
   }
 
   return (
     <div className="App">
         <div className = "title">Reviewdit</div>
-        <button onClick = {getURL(getProductName)} className = "btn">Find Reviews</button>
+        <button onClick = {()=>getURL(getProductName)} className = "btn">Find Reviews</button>
         <div className = "review-listing">
           <p className= 'review-search-title'>
-            Showing reviews for title..
+            Showing reviews for 
+            {productName}...
           </p>
           <div className = "review">
             <span className="review-header">
