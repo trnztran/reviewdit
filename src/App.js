@@ -4,10 +4,25 @@ import './App.css';
 
 function App() {
 
+  const [apiKey, setApiKey] = useState();
   const [productName, setProductName] = useState();
   const [isLoading, setIsLoading] = useState();
 
-  function getURL(callback){
+  const getAccessToken = () =>{
+    //retrieves accesstoken for reddit API
+
+    fetch('http://localhost:5000/accessToken')
+      .then(response => response.text())
+      .then(result => {
+        console.log(result);
+        setApiKey(result)
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+  }
+
+  const getURL = (callback) => {
     return chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
         callback(tabs[0].url)});
   }
@@ -28,10 +43,16 @@ function App() {
     // console.log(productName);
   }
 
+  const handleClick = () => {
+    getAccessToken();
+    console.log(apiKey);
+    getURL(getProductName);
+  }
+
   return (
     <div className="App">
         <div className = "title">Reviewdit</div>
-        <button onClick = {()=>getURL(getProductName)} className = "btn">Find Reviews</button>
+        <button onClick = {handleClick} className = "btn">Find Reviews</button>
         <div className = "review-listing">
           <p className= 'review-search-title'>
             Showing reviews for 

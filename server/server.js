@@ -1,11 +1,45 @@
 const puppeteer = require('puppeteer');
 const express = require('express');
 const app = express();
+const axios = require("axios");
 
 const PORT = 5000;
 
 app.get("/api", (req,res) =>{
     res.json({"users": ["userOne", "userTwo", "userThree"]})
+});
+
+app.get("/accessToken", async (req,res) => {
+    // Uses axios to retrieve access token from reddit api
+
+    let token_URL = 'https://www.reddit.com/api/v1/access_token';
+    
+    const reddit_Username = "HereComesTheGordo";
+    const reddit_Password = "Garfield789!";
+    const reddit_ClientID = "XYj8WIQfauPz0WyHHVq4Dw";
+    const reddit_ClientSecret = "7EfVmBEbGgMK-pQLBi-kdFKIt7Ka0g";
+    const reddit_UserAgent = "Reviewdit";
+
+    try{
+        const response = await axios.post(
+            token_URL,
+            `grant_type=password&username=${reddit_Username}&password=${reddit_Password}`,
+            {
+                auth: {
+                    username: reddit_ClientID,
+                    password: reddit_ClientSecret,
+                },
+                headers: {
+                    'User-Agent': reddit_UserAgent,
+                },
+            }
+        );
+
+        console.log ('Access token:', response.data.access_token);
+        return res.status(200).send(response.data.access_token);
+    } catch(error){
+        console.error('Error getting the access token: ', error.message);
+    }
 });
 
 app.get("/productName", async (req, res) => {
