@@ -14,10 +14,10 @@ app.get("/accessToken", async (req,res) => {
 
     let token_URL = 'https://www.reddit.com/api/v1/access_token';
     
-    const reddit_Username = "HereComesTheGordo";
-    const reddit_Password = "Garfield789!";
-    const reddit_ClientID = "XYj8WIQfauPz0WyHHVq4Dw";
-    const reddit_ClientSecret = "7EfVmBEbGgMK-pQLBi-kdFKIt7Ka0g";
+    const reddit_Username = "";    //Reddit Username here
+    const reddit_Password = "";     //Reddit Pw here
+    const reddit_ClientID = "";   //Reddit ClientID
+    const reddit_ClientSecret = "";   //Reddit Client Secret
     const reddit_UserAgent = "Reviewdit";
 
     try{
