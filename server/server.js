@@ -66,4 +66,13 @@ app.get("/productName", async (req, res) => {
     } 
 });
 
+app.get("/retrieveRedditReview", (req, res) => {
+    const apiKey = req.query.apiKey;
+    const productName = req.query.productName;
+
+    console.log("apiKey: ", apiKey);
+    console.log("productName: ", productName);
+    return res.status(200);
+})
+
 app.listen(PORT, () => {console.log("server start on port 5000")});

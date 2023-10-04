@@ -14,7 +14,7 @@ function ReviewButton() {
     // server scrapes the amazon page and returns the product name
     // product name is stored in productName
 
-    await fetch('http://localhost:5000/productName?website='+currentURL)
+    await fetch(`http://localhost:5000/productName?website=${currentURL}`)
       .then(response => response.text())
       .then(result => {
         console.log("result: ",result);
@@ -27,7 +27,7 @@ function ReviewButton() {
       });
   }
  
-  const getAccessToken = async() =>{
+  const getAccessToken = async() => {
     // retrieves accesstoken for reddit API
 
     await fetch('http://localhost:5000/accessToken')
@@ -42,7 +42,18 @@ function ReviewButton() {
         console.log(err.message);
       });
       console.log("accesskey:", apiKey);
-    }
+  }
+
+  const fetchRedditReviews = async(apiKey, productName) => {
+    // passes apiKey and productName to server for reddit api
+
+    const apiKey1 = apiKey;
+    const productName2 = productName;
+
+    const url = `http://localhost:5000/retrieveRedditReview?apiKey=${apiKey1}&productName=${productName2}`;
+
+    await fetch(url);
+  }
 
   const handleClick = async (e) => {
     //performs all functions needed to grab product name
@@ -52,12 +63,14 @@ function ReviewButton() {
     console.log("start handleclick");
     
     await getProductName(currentURL);
+    await fetchRedditReviews(apiKey, productName);
 
     setIsLoading(false);
   }
 
   useEffect(()=> {
     // Grabs URL of current active tab and stores in currentURL
+    // Grabs Access Token for reddit api and stores in apiKey
     
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const currentTab = tabs[0];
@@ -72,7 +85,6 @@ function ReviewButton() {
         <button onClick = {handleClick} className = "btn">
           {isLoading ? 'Loading...' : 'Find Reviews'}
         </button>  
-        <p>Access key: {apiKey}</p>
         <ReviewListing prop = {productName} />
       </div>
   )
