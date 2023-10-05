@@ -12,36 +12,33 @@ function ReviewButton() {
   const getProductName = async (currentURL) => {
     // fetch request to server with amazon URL
     // server scrapes the amazon page and returns the product name
-    // product name is stored in productName
 
-    await fetch(`http://localhost:5000/productName?website=${currentURL}`)
+    const proName = await fetch(`http://localhost:5000/productName?website=${currentURL}`)
       .then(response => response.text())
       .then(result => {
-        console.log("result: ",result);
-        setProductName(result);
-        console.log("fetch completed");
         return(result);
       })
       .catch(err => {
         console.log(err.message);
       });
+
+    return proName;
   }
  
   const getAccessToken = async() => {
-    // retrieves accesstoken for reddit API
+    // retrieves accesstoken for reddit API and stores in apiKey
 
     await fetch('http://localhost:5000/accessToken')
       .then(response => response.text())
       .then(result => {
         console.log("access token: ", result);
         setApiKey(result);
-        // console.log("access token 2: ", apiKey);
+        console.log("access token 2: ", apiKey);
         return result;
       })
       .catch(err => {
         console.log(err.message);
       });
-      console.log("accesskey:", apiKey);
   }
 
   const fetchRedditReviews = async(apiKey, productName) => {
@@ -62,8 +59,16 @@ function ReviewButton() {
     setIsLoading(true);
     console.log("start handleclick");
     
-    await getProductName(currentURL);
-    await fetchRedditReviews(apiKey, productName);
+    getProductName(currentURL)
+      .then((result) => {
+        setProductName(result);
+        console.log("product name:", productName);
+        fetchRedditReviews(apiKey, result);
+      })
+      .catch(err => {
+        console.log("error: ", err);
+      });
+    
 
     setIsLoading(false);
   }
