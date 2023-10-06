@@ -15,7 +15,7 @@ app.get("/accessToken", async (req,res) => {
     let token_URL = 'https://www.reddit.com/api/v1/access_token';
     
     const reddit_Username = "";    //Reddit Username here
-    const reddit_Password = "";     //Reddit Pw here
+    const reddit_Password = "!";     //Reddit Pw here
     const reddit_ClientID = "";   //Reddit ClientID
     const reddit_ClientSecret = "";   //Reddit Client Secret
     const reddit_UserAgent = "Reviewdit";
@@ -66,12 +66,30 @@ app.get("/productName", async (req, res) => {
     } 
 });
 
-app.get("/retrieveRedditReview", (req, res) => {
+app.get("/retrieveRedditReview", async (req, res) => {
     const apiKey = req.query.apiKey;
     const productName = req.query.productName;
 
     console.log("apiKey: ", apiKey);
     console.log("productName: ", productName);
+
+    try{
+        const response = await axios.get(
+            `https://www.reddit.com/search.json?q=${productName}&limit=1`,
+            {
+                headers: {
+                    Authorization: `${apiKey}`,
+                    'User-Agent': 'Reviewdit',
+                },
+            }
+        );
+        const reviews = response.data.data.children;
+        console.log("reviews: ", reviews);
+
+    } catch(error){
+        console.log("Error fetching reddit posts: ", error);
+    }
+
     return res.status(200);
 })
 
