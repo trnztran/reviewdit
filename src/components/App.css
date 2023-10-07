@@ -75,10 +75,11 @@ body {
 }
 
 .review-header {
-  gap: 7.5px;
   color:var(--text-color-c);
   font-size: 0.85rem;
-  margin: 0 !important;
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 10px 10px;
 }
 
 .review-title{
@@ -86,6 +87,7 @@ body {
   font-family: var(--title-font);
   font-size: 0.9rem;
   text-align: left;
+  margin-top: 0px;
 }
 
 .review-content{
