@@ -2,12 +2,14 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import ReviewListing from './ReviewListing';
+import ReviewCard from './ReviewCard';
 
 function ReviewButton() {
-  const [apiKey, setApiKey] = useState();
+  // const [apiKey, setApiKey] = useState();
   const [productName, setProductName] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [currentURL, setCurrentURL] = useState();
+  const [reviews, setReviews] = useState();
 
   const getProductName = async (currentURL) => {
     // fetch request to server with amazon URL
@@ -25,31 +27,39 @@ function ReviewButton() {
     return proName;
   }
  
-  const getAccessToken = async() => {
-    // retrieves accesstoken for reddit API and stores in apiKey
+  // const getAccessToken = async() => {
+  //   // retrieves accesstoken for reddit API and stores in apiKey
 
-    await fetch('http://localhost:5000/accessToken')
-      .then(response => response.text())
-      .then(result => {
-        console.log("access token: ", result);
-        setApiKey(result);
-        console.log("access token 2: ", apiKey);
-        return result;
+  //   await fetch('http://localhost:5000/accessToken')
+  //     .then(response => response.text())
+  //     .then(result => {
+  //       setApiKey(result);
+  //       return result;
+  //     })
+  //     .catch(err => {
+  //       console.log(err.message);
+  //     });
+  // }
+
+  const fetchRedditReviews = async(/*apiKey,*/ productName) => {
+    // passes apiKey and productName to server for reddit api
+
+    // const apiKey1 = apiKey;
+    const productName2 = productName;
+
+    // const url = `http://localhost:5000/retrieveRedditReview?apiKey=${apiKey1}&productName=${productName2}`;
+    const url = `http://localhost:5000/retrieveRedditReview?productName=${productName2}`;
+
+    await fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("result: ", data);
+        setReviews(data);
       })
       .catch(err => {
         console.log(err.message);
       });
-  }
 
-  const fetchRedditReviews = async(apiKey, productName) => {
-    // passes apiKey and productName to server for reddit api
-
-    const apiKey1 = apiKey;
-    const productName2 = productName;
-
-    const url = `http://localhost:5000/retrieveRedditReview?apiKey=${apiKey1}&productName=${productName2}`;
-
-    await fetch(url);
   }
 
   const handleClick = async (e) => {
@@ -59,18 +69,16 @@ function ReviewButton() {
     setIsLoading(true);
     console.log("start handleclick");
     
-    getProductName(currentURL)
+    await getProductName(currentURL)
       .then((result) => {
         setProductName(result);
-        console.log("product name:", productName);
-        fetchRedditReviews(apiKey, result);
+        fetchRedditReviews(/*apiKey,*/ result);
       })
       .catch(err => {
         console.log("error: ", err);
       });
-    
-
     setIsLoading(false);
+    console.log("end handleclick");
   }
 
   useEffect(()=> {
@@ -82,15 +90,16 @@ function ReviewButton() {
       const url = currentTab.url;
       setCurrentURL(url);
     });
-    getAccessToken();
+    // getAccessToken();
   }, []);
 
   return(
       <div>
         <button onClick = {handleClick} className = "btn">
           {isLoading ? 'Loading...' : 'Find Reviews'}
-        </button>  
-        <ReviewListing prop = {productName} />
+        </button>
+        <ReviewListing productName = {productName} />
+        <ReviewCard reviewJson = {reviews} />
       </div>
   )
 }

@@ -1,3 +1,5 @@
+// import {organizeResults} from './serverHelper.js';
+
 const puppeteer = require('puppeteer');
 const express = require('express');
 const app = express();
@@ -68,7 +70,7 @@ app.get("/productName", async (req, res) => {
 
 app.get("/retrieveRedditReview", async (req, res) => {
     const apiKey = req.query.apiKey;
-    const productName = req.query.productName;
+    const productName = req.query.productName + " review";
 
     console.log("apiKey: ", apiKey);
     console.log("productName: ", productName);
@@ -84,13 +86,22 @@ app.get("/retrieveRedditReview", async (req, res) => {
             }
         );
         const reviews = response.data.data.children;
-        console.log("reviews: ", reviews);
+        const org_Results = {
+            "subreddit": "r/" + reviews[0].data.subreddit,
+            "post_title": reviews[0].data.title,
+            "author": "u/" + reviews[0].data.author,
+            "upvotes": reviews[0].data.ups,
+            "post_link": "http://reddit.com" + reviews[0].data.permalink,
+            "post_content": reviews[0].data.selftext
+          };
+          console.log(org_Results);
+        return res.status(200).json(org_Results);
 
-    } catch(error){
+    }catch(error){
         console.log("Error fetching reddit posts: ", error);
     }
 
-    return res.status(200);
+    // return res.status(200);
 })
 
 app.listen(PORT, () => {console.log("server start on port 5000")});

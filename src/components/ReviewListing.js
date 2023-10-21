@@ -1,15 +1,16 @@
 import React from 'react';
 import './App.css';
 
-function ReviewListing({prop}) {
-    if(prop === undefined){
+function ReviewListing({productName}) {
+
+    if(productName === undefined){
         return(null)
-    } else{
+    } else {
         return (
             <div className = "review-listing">
                 <p className='review-search-title'>
                     Showing reviews for 
-                    {prop}...
+                    {productName}...
                 </p>
             </div>
         )  
