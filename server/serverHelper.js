@@ -5,7 +5,7 @@ module.exports = function organizeResults(results){
   */ 
 
   const results_length = Object.keys(results).length;
-  const org_Results = [];
+  const org_Results = {};
 
   for (let i = 0; i<results_length; i++) {
     let post_Num = `post_${i}`;

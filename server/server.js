@@ -87,18 +87,9 @@ app.get("/retrieveRedditReview", async (req, res) => {
             }
         );
         const reviews = response.data.data.children;
-        console.log(reviews);
-        // const org_Results = {
-        //     "subreddit": "r/" + reviews[0].data.subreddit,
-        //     "post_title": reviews[0].data.title,
-        //     "author": "u/" + reviews[0].data.author,
-        //     "upvotes": reviews[0].data.ups,
-        //     "post_link": "http://reddit.com" + reviews[0].data.permalink,
-        //     "post_content": reviews[0].data.selftext
-        //   };
-        //   console.log(org_Results);
+        
         const org_Results = organizeResults(reviews);
-        console.log(org_Results);
+        console.log("organized results: ", org_Results);
         return res.status(200).json(org_Results);
 
     }catch(error){
