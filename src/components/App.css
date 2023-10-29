@@ -88,6 +88,7 @@ body {
   font-size: 0.9rem;
   text-align: left;
   margin-top: 0px;
+  padding-inline: 10px 10px;
 }
 
 .review-content{
@@ -95,4 +96,5 @@ body {
   font-family: var(--body-font);
   font-size: 0.8rem;
   text-align:left;
+  padding-inline: 10px 10px;
 }

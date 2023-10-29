@@ -12,8 +12,10 @@ function ReviewButton() {
   const [reviews, setReviews] = useState();
 
   const getProductName = async (currentURL) => {
-    // fetch request to server with amazon URL
-    // server scrapes the amazon page and returns the product name
+    /* 
+    fetch request to server with amazon URL
+    server scrapes the amazon page and returns the product name
+    */
 
     const proName = await fetch(`http://localhost:5000/productName?website=${currentURL}`)
       .then(response => response.text())
@@ -42,7 +44,9 @@ function ReviewButton() {
   // }
 
   const fetchRedditReviews = async(/*apiKey,*/ productName) => {
-    // passes apiKey and productName to server for reddit api
+    /* 
+    passes apiKey and productName to server for reddit api
+    */
 
     // const apiKey1 = apiKey;
     const productName2 = productName;
@@ -53,8 +57,9 @@ function ReviewButton() {
     await fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        console.log("result: ", data);
+        console.log("result data: ", data);
         setReviews(data);
+        // console.log("reviews: ", reviews);
       })
       .catch(err => {
         console.log(err.message);
@@ -63,7 +68,9 @@ function ReviewButton() {
   }
 
   const handleClick = async (e) => {
-    //performs all functions needed to grab product name
+    /*
+    performs all functions needed to grab product name
+    */
 
     e.preventDefault();
     setIsLoading(true);
@@ -82,8 +89,10 @@ function ReviewButton() {
   }
 
   useEffect(()=> {
-    // Grabs URL of current active tab and stores in currentURL
-    // Grabs Access Token for reddit api and stores in apiKey
+    /* 
+    Grabs URL of current active tab and stores in currentURL
+    Grabs Access Token for reddit api and stores in apiKey
+    */
     
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const currentTab = tabs[0];
@@ -92,6 +101,10 @@ function ReviewButton() {
     });
     // getAccessToken();
   }, []);
+
+  useEffect(() => {
+    console.log("reviews: ", reviews);
+  },[reviews]);
 
   return(
       <div>

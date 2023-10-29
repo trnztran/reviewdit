@@ -16,8 +16,8 @@ module.exports = function organizeResults(results){
     temp["author"] = "u/" + results[i].data.author;
     temp["upvotes"] = results[i].data.ups;
     temp["post_link"] = "http://reddit.com" + results[i].data.permalink;
-    temp["post-content"] = results[i].data.selftext;
-    temp["post-url-override"] = results[i].data.url;
+    temp["post_content"] = results[i].data.selftext;
+    temp["post_url_override"] = results[i].data.url;
     
     org_Results[post_Num] = temp;
   }
